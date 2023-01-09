@@ -1,0 +1,23 @@
+﻿id;subject_name;created_at;updated_at;learning_level
+1;English;2019-08-14 18:23:06;2021-09-20 19:57:24;primary
+2;Mathematics;2019-08-14 18:24:31;2021-09-20 19:57:24;primary
+3;Science;2019-08-14 18:24:56;2021-09-20 19:57:24;primary
+4;Kiswahili;2019-08-14 18:25:02;2021-09-20 19:57:24;primary
+5;Social Studies;2019-08-14 18:25:11;2021-09-20 19:57:24;primary
+6;C.R.E;2019-08-14 18:25:51;2021-09-20 19:57:24;primary
+8;Secondary Math;;;secondary
+9;Secondary English;;2021-09-20 19:57:24;secondary
+10;Secondary Swahili;;2021-09-20 19:57:24;secondary
+11;Chemistry;;2021-09-20 19:57:24;secondary
+12;Biology;;2021-09-20 19:57:24;secondary
+13;Physics;;2021-09-20 19:57:24;secondary
+14;Secondary C.R.E;;2021-09-20 19:57:24;secondary
+15;Secondary I.R.E;;2021-09-20 19:57:24;secondary
+16;H.R.E;;2021-09-20 19:57:24;secondary
+17;Business Studies;;2021-09-20 19:57:24;secondary
+18;Agriculture;;2021-09-20 19:57:24;secondary
+19;Geography;;2021-09-20 19:57:24;secondary
+20;History;;2021-09-20 19:57:24;secondary
+21;Computer;;2021-09-20 19:57:24;secondary
+22;I.R.E;;2021-09-20 19:57:24;primary
+23;H.R.E;;2021-09-20 19:57:24;primary
