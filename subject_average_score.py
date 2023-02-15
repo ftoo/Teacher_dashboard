@@ -82,25 +82,27 @@ quiz_questions_merger['score'] = ((quiz_questions_merger.groupby(['quiz_id'])['m
 quiz_questions_merger['quiz_id'] = quiz_questions_merger['quiz_id'].replace('0','null')
 quiz_questions_merger.drop(quiz_questions_merger[quiz_questions_merger.quiz_id == "null"].index, inplace=True)
 
-#subject 
+#subject average score
+quiz_questions_merger.drop_duplicates(subset='quiz_id', keep="last", inplace = True)
+
+quiz_questions_merger['class_subject_avg_score'] = ((quiz_questions_merger.groupby(['class_name','subject_name'])['score'].transform('sum'))/quiz_questions_merger.groupby(['class_name','subject_name'])['quiz_id'].transform('nunique')).round(2)
+quiz_questions_merger= quiz_questions_merger.groupby(['class_name','subject_name','class_subject_avg_score']).size().reset_index()
+
 #................................... END OF data loading and cleaning......................................................................
 
 
 
-quiz = quiz_questions_merger.groupby(['class_name','subject_name','topic_name','marked_label']).size().reset_index(name='counts')
+#quiz = quiz_questions_merger.groupby(['class_name','subject_name','topic_name','marked_label']).size().reset_index(name='counts')
 
-class_dropdown = dcc.Dropdown(options=quiz['class_name'].unique(),
+class_dropdown = dcc.Dropdown(options=quiz_questions_merger['class_name'].unique(),
                             value= 0)
-subject_dropdown = dcc.Dropdown(options=quiz['subject_name'].unique(),
-                            value= 0)
+#subject_dropdown = dcc.Dropdown(options=quiz['subject_name'].unique(), value= 0)
 
 
 app.layout = html.Div(children=[
-    html.H1(children='Subject Question performance '),
+    html.H1(children='Subject Average  Performance '),
     html.P("Class:"),
     class_dropdown,
-    html.P("Subject:"),
-    subject_dropdown,
     dcc.Graph(id='progression-chart')
 ])
 
@@ -109,15 +111,15 @@ app.layout = html.Div(children=[
 @app.callback(
     Output(component_id='progression-chart', component_property='figure'),
     Input(component_id=class_dropdown, component_property='value'),
-    Input(component_id=subject_dropdown, component_property='value')
 
 )
-def generate_chart(selected_class, selected_subject):
+def generate_chart(selected_class):
 
-    filtered_student =  quiz.loc[(quiz['class_name'] == selected_class )& (quiz['subject_name'] == selected_subject )]
+    filtered_class =  quiz_questions_merger.loc[(quiz_questions_merger['class_name'] == selected_class )]
 
 
-    fig = px.bar(filtered_student, x='topic_name', y='counts', color='marked_label')
+    fig = px.bar(filtered_class, x='subject_name', y='class_subject_avg_score',   text=filtered_class['class_subject_avg_score'].apply(lambda x: '{0:1.2f}%'.format(x)))
+
 
     return fig
 

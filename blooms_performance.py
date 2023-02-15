@@ -11,6 +11,7 @@ from dash import Dash, dcc, html, Input, Output
 import plotly.express as px
 import pandas as pd
 import numpy as np
+from datetime import datetime
 
 app = Dash(__name__)
 #................................... data loading and cleaning......................................................................
@@ -28,6 +29,13 @@ quiz = pd.read_csv('/Users/faithtoo/Desktop/fellowship/angaza/teacher/data/quest
 quiz = quiz.drop_duplicates()
 
 # merge quiz and questions data
+
+quiz['updated_at']=pd.to_datetime(quiz.updated_at, format='%Y/%m/%d %H:%M')
+
+quiz['year'] = quiz['updated_at'].dt.year
+quiz['month name'] = quiz['updated_at'].dt.month_name()
+quiz["year month"] = quiz['year'].astype(str) +"-"+ quiz["month name"]
+
 quiz_questions = pd.merge(quiz,questions,on='question_id',how='left')
 quiz_questions.drop(["answer","created_at","assigned_marks","subtopic_id_y","subject_id_y"],axis=1,inplace=True)
 quiz_questions.rename(columns={"subject_id_x": "subject_id","subtopic_id_x": "subtopic_id"}, inplace=True)
